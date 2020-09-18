@@ -4,7 +4,7 @@ pub const ANIMALS: &[&str] = &[
     "alpaca",
     "ant",
     "ape",
-    "donky",
+    "donkey",
     "baboon",
     "badger",
     "bat",
