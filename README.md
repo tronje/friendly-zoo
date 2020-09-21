@@ -5,7 +5,7 @@ A friendly zoo! Use it to generate neat animal names.
 ## Example
 
 ```rust
-use friendly_zoo::Zoo;
+use friendly_zoo::{Species, Zoo};
 
 // default zoo
 let animal = Zoo::default().generate();
@@ -13,8 +13,8 @@ println!("{}", animal);
 // prints e.g. "cheerful_otter"
 
 // build your own zoo!
-let animal = Zoo::new('-', 3).generate();
-// prints e.g. "poor-ballsy-elegant-camel"
+let animal = Zoo::new(Species::CamelCase, 3).generate();
+// prints e.g. "PoorBallsyElegantCamel"
 ```
 
 ## FAQ
