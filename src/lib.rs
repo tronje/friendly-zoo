@@ -117,10 +117,63 @@ mod tests {
     }
 
     #[test]
-    fn different_delimiters() {
-        for ch in "-+^#_".chars() {
-            let animal = Zoo::new(ch, 5).generate();
-            assert!(animal.chars().filter(|&c| c == ch).count() == 5);
-        }
+    fn test_snakes() {
+        let animal = Zoo::new(Species::Snake, 10).generate();
+        assert_eq!(animal.chars().filter(|&c| c == '_').count(), 10);
+        assert!(animal
+            .chars()
+            .filter(|&c| c != '_')
+            .map(|c| c.is_ascii_lowercase())
+            .all(|x| x));
+    }
+
+    #[test]
+    fn test_screaming_snakes() {
+        let animal = Zoo::new(Species::ScreamingSnake, 10).generate();
+        assert_eq!(animal.chars().filter(|&c| c == '_').count(), 10);
+        assert!(animal
+            .chars()
+            .filter(|&c| c != '_')
+            .map(|c| c.is_ascii_uppercase())
+            .all(|x| x));
+    }
+
+    #[test]
+    fn test_dromedaries() {
+        let animal = Zoo::new(Species::Dromedary, 10).generate();
+        assert!(animal.chars().nth(0).unwrap().is_ascii_lowercase());
+    }
+
+    #[test]
+    fn test_kebabs() {
+        let animal = Zoo::new(Species::Kebab, 10).generate();
+        assert_eq!(animal.chars().filter(|&c| c == '-').count(), 10);
+        assert!(animal
+            .chars()
+            .filter(|&c| c != '-')
+            .map(|c| c.is_ascii_lowercase())
+            .all(|x| x));
+    }
+
+    #[test]
+    fn test_screaming_kebabs() {
+        let animal = Zoo::new(Species::ScreamingKebab, 10).generate();
+        assert_eq!(animal.chars().filter(|&c| c == '-').count(), 10);
+        assert!(animal
+            .chars()
+            .filter(|&c| c != '-')
+            .map(|c| c.is_ascii_uppercase())
+            .all(|x| x));
+    }
+
+    #[test]
+    fn test_custom_delimiter() {
+        let animal = Zoo::new(Species::CustomDelimiter('$'), 10).generate();
+        assert_eq!(animal.chars().filter(|&c| c == '$').count(), 10);
+        assert!(animal
+            .chars()
+            .filter(|&c| c != '$')
+            .map(|c| c.is_ascii_lowercase())
+            .all(|x| x));
     }
 }
