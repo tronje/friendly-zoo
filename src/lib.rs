@@ -6,6 +6,42 @@ mod animals;
 use adjectives::ADJECTIVES;
 use animals::ANIMALS;
 
+/// What does the animal look like?
+#[derive(Debug)]
+pub enum Species {
+    /// A `snake_like_animal`.
+    Snake,
+
+    /// A `VERY_LOUD_SNAKE_ANIMAL`.
+    ScreamingSnake,
+
+    /// A `CamelLikeAnimal`.
+    Camel,
+
+    /// A `dromedaryLikeAnimal`.
+    Dromedary,
+
+    /// Everyone knows the `kebab-animal`.
+    Kebab,
+
+    /// A `VERY-LOUD-KEBAB-ANIMAL`.
+    ScreamingKebab,
+
+    /// The rarest of species.
+    CustomDelimiter(char),
+}
+
+impl Species {
+    fn delimiter(&self) -> Option<char> {
+        match self {
+            Self::Snake | Self::ScreamingSnake => Some('_'),
+            Self::Camel | Self::Dromedary => None,
+            Self::Kebab | Self::ScreamingKebab => Some('-'),
+            Self::CustomDelimiter(c) => Some(*c),
+        }
+    }
+}
+
 /// A friendly zoo.
 ///
 /// The zoo can generate animals. Each animal can have between `0` and `u32::MAX` adjectives, and a
