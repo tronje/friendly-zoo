@@ -6,6 +6,11 @@ mod animals;
 use adjectives::ADJECTIVES;
 use animals::ANIMALS;
 
+fn capitalize(word: &str) -> String {
+    let mut chars = word.chars();
+    chars.next().unwrap().to_uppercase().collect::<String>() + chars.as_str()
+}
+
 /// What does the animal look like?
 #[derive(Debug)]
 pub enum Species {
@@ -58,14 +63,14 @@ impl Species {
 /// println!("{}", animal);
 /// ```
 ///
-/// Generate a really fancy animal:
+/// Generate a `DifferentLooking` animal:
 /// ```
-/// use friendly_zoo::Zoo;
-/// let animal = Zoo::new('$', 6).generate();
+/// use friendly_zoo::{Zoo, Species};
+/// let animal = Zoo::new(Species::Camel, 6).generate();
 /// println!("{}", animal);
 /// ```
 pub struct Zoo {
-    delimiter: char,
+    species: Species,
     // `u8` conveniently limits the number of adjectives to be in the same ballpark as the number
     // of adjectives actually available. This ensures no duplicate. Using more than 255 adjectives
     // is considered unreasonably excessive, anyway.
@@ -73,9 +78,9 @@ pub struct Zoo {
 }
 
 impl Zoo {
-    pub fn new(delimiter: char, number_of_adjectives: u8) -> Self {
+    pub fn new(species: Species, number_of_adjectives: u8) -> Self {
         Self {
-            delimiter,
+            species,
             number_of_adjectives,
         }
     }
@@ -86,12 +91,33 @@ impl Zoo {
 
         ADJECTIVES
             .choose_multiple(&mut rng, self.number_of_adjectives as usize)
-            .for_each(|adjective| {
-                result.push_str(adjective);
-                result.push(self.delimiter);
+            .enumerate()
+            .for_each(|(i, adjective)| {
+                match self.species {
+                    Species::ScreamingSnake | Species::ScreamingKebab => {
+                        result.push_str(&adjective.to_uppercase())
+                    }
+                    Species::Dromedary => match i {
+                        0 => result.push_str(adjective),
+                        _ => result.push_str(&capitalize(adjective)),
+                    },
+                    Species::Camel => result.push_str(&capitalize(adjective)),
+                    _ => result.push_str(adjective),
+                }
+                if let Some(delimiter) = self.species.delimiter() {
+                    result.push(delimiter);
+                }
             });
 
-        result.push_str(ANIMALS.choose(&mut rng).unwrap());
+        let animal = ANIMALS.choose(&mut rng).unwrap();
+        match self.species {
+            Species::ScreamingSnake | Species::ScreamingKebab => {
+                result.push_str(&animal.to_uppercase())
+            }
+            Species::Dromedary => result.push_str(&capitalize(animal)),
+            Species::Camel => result.push_str(&capitalize(animal)),
+            _ => result.push_str(animal),
+        }
 
         result
     }
@@ -100,7 +126,7 @@ impl Zoo {
 impl Default for Zoo {
     fn default() -> Self {
         Self {
-            delimiter: '_',
+            species: Species::Snake,
             number_of_adjectives: 1,
         }
     }
