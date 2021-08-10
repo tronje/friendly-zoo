@@ -13,7 +13,8 @@ println!("{}", animal);
 // prints e.g. "cheerful_otter"
 
 // build your own zoo!
-let animal = Zoo::new(Species::CamelCase, 3).generate();
+let animal = Zoo::new(Species::Camel, 3).generate();
+println!("{}", animal);
 // prints e.g. "PoorBallsyElegantCamel"
 ```
 
