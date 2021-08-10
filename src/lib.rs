@@ -49,7 +49,7 @@ impl Species {
 
 /// A friendly zoo.
 ///
-/// The zoo can generate animals. Each animal can have between `0` and `u32::MAX` adjectives, and a
+/// The zoo can generate animals. Each animal can have between `0` and `u8::MAX` adjectives, and a
 /// race. The number of adjectives and the delimiter between the adjectives and the animal are set
 /// during instantiation. For one adjective, and `_` as the delimiter, use the `Default`
 /// implementation of `Zoo`.
