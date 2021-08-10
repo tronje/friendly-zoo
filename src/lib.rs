@@ -69,6 +69,15 @@ impl Species {
 /// let animal = Zoo::new(Species::Camel, 6).generate();
 /// println!("{}", animal);
 /// ```
+///
+/// `Zoo` implements `Iterator`:
+/// ```
+/// use friendly_zoo::Zoo;
+/// let zoo = Zoo::default();
+/// for animal in zoo.take(5) {
+///     println!("{}", animal);
+/// }
+/// ```
 pub struct Zoo {
     species: Species,
     // `u8` conveniently limits the number of adjectives to be in the same ballpark as the number
@@ -129,6 +138,14 @@ impl Default for Zoo {
             species: Species::Snake,
             number_of_adjectives: 1,
         }
+    }
+}
+
+impl Iterator for Zoo {
+    type Item = String;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Some(self.generate())
     }
 }
 
