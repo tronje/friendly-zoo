@@ -113,6 +113,7 @@ impl Zoo {
                     Species::Camel => result.push_str(&capitalize(adjective)),
                     _ => result.push_str(adjective),
                 }
+
                 if let Some(delimiter) = self.species.delimiter() {
                     result.push(delimiter);
                 }
