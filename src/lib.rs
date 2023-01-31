@@ -1,3 +1,7 @@
+//! A friendly zoo! Use it to generate neat animal names.
+
+#![deny(missing_debug_implementations, missing_docs)]
+
 mod adjectives;
 mod animals;
 
@@ -77,6 +81,7 @@ impl Species {
 ///     println!("{}", animal);
 /// }
 /// ```
+#[derive(Debug)]
 pub struct Zoo {
     species: Species,
     // `u8` conveniently limits the number of adjectives to be in the same ballpark as the number
@@ -86,6 +91,16 @@ pub struct Zoo {
 }
 
 impl Zoo {
+    /// Create a new zoo to generate animal names.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use friendly_zoo::{Zoo, Species};
+    /// let zoo = Zoo::new(Species::Kebab, 3);
+    /// println!("{}", zoo.generate());
+    /// // prints e.g. poor-ballsy-elegant-camel
+    /// ```
     pub fn new(species: Species, number_of_adjectives: u8) -> Self {
         Self {
             species,
@@ -93,6 +108,9 @@ impl Zoo {
         }
     }
 
+    /// Generate an animal name according to the specification `self` was constructed with.
+    ///
+    /// "Specification" here refers to the `Species` and the number of adjectives that were chosen.
     pub fn generate(&self) -> String {
         let mut rng = rand::thread_rng();
         let mut result = String::new();
@@ -133,6 +151,7 @@ impl Zoo {
 }
 
 impl Default for Zoo {
+    /// A default zoo uses snake case and one adjective for its animal names.
     fn default() -> Self {
         Self {
             species: Species::Snake,
@@ -144,6 +163,9 @@ impl Default for Zoo {
 impl Iterator for Zoo {
     type Item = String;
 
+    /// Generate another animal name.
+    ///
+    /// `Zoo` is an infinite iterator. It always returns `Some(String)`, never `None`.
     fn next(&mut self) -> Option<Self::Item> {
         Some(self.generate())
     }
