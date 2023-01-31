@@ -205,6 +205,10 @@ impl Iterator for Zoo {
     fn next(&mut self) -> Option<Self::Item> {
         Some(self.generate())
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        (usize::MAX, None)
+    }
 }
 
 #[cfg(test)]
