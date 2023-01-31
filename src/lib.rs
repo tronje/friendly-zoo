@@ -184,7 +184,7 @@ mod tests {
     #[test]
     fn test_dromedaries() {
         let animal = Zoo::new(Species::Dromedary, 10).generate();
-        assert!(animal.chars().nth(0).unwrap().is_ascii_lowercase());
+        assert!(animal.chars().next().unwrap().is_ascii_lowercase());
     }
 
     #[test]
