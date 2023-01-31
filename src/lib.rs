@@ -1,10 +1,9 @@
-use rand::prelude::*;
-
 mod adjectives;
 mod animals;
 
 use adjectives::ADJECTIVES;
 use animals::ANIMALS;
+use rand::prelude::*;
 
 fn capitalize(word: &str) -> String {
     let mut chars = word.chars();
