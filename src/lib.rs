@@ -148,6 +148,42 @@ impl Zoo {
 
         result
     }
+
+    /// Change the `Species` used for generating the animal names.
+    pub fn set_species(&mut self, species: Species) {
+        self.species = species;
+    }
+
+    /// Change the `Species` used for generating the animal names (builder-pattern style).
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use friendly_zoo::{Species, Zoo};
+    /// let zoo = Zoo::default().with_species(Species::Camel);
+    /// ```
+    pub fn with_species(mut self, species: Species) -> Self {
+        self.species = species;
+        self
+    }
+
+    /// Change the number of adjectives that precede a generated animal name.
+    pub fn set_adjectives(&mut self, n: u8) {
+        self.number_of_adjectives = n;
+    }
+
+    /// Change the number of adjectives that precede a generated animal name (builder-pattern style).
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use friendly_zoo::Zoo;
+    /// let zoo = Zoo::default().with_adjectives(3);
+    /// ```
+    pub fn with_adjectives(mut self, n: u8) -> Self {
+        self.number_of_adjectives = n;
+        self
+    }
 }
 
 impl Default for Zoo {
