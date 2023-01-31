@@ -2,10 +2,10 @@
 name = "friendly-zoo"
 version = "0.3.0"
 authors = ["Tronje Krabbe <hi@tron.je>"]
-edition = "2018"
+edition = "2021"
 description = "A simple crate to generate random animal names"
 license = "Unlicense"
 repository = "https://github.com/tronje/friendly-zoo"
 
 [dependencies]
-rand = "0.7.3"
+rand = "0.8.5"
