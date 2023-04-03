@@ -111,12 +111,25 @@ impl Zoo {
     /// Generate an animal name according to the specification `self` was constructed with.
     ///
     /// "Specification" here refers to the `Species` and the number of adjectives that were chosen.
+    ///
+    /// Uses the RNG returned by `rand::thread_rng()` to choose adjectives and animal name.
     pub fn generate(&self) -> String {
         let mut rng = rand::thread_rng();
+        self.generate_with_rng(&mut rng)
+    }
+
+    /// Generate an animal name using the provided random number generator.
+    ///
+    /// Equivalent to [`generate`], but allows you to pass in your own RNG instance. May be useful
+    /// when you want to seed your generator and generate repeatable results.
+    pub fn generate_with_rng<R>(&self, rng: &mut R) -> String
+    where
+        R: Rng,
+    {
         let mut result = String::new();
 
         ADJECTIVES
-            .choose_multiple(&mut rng, self.number_of_adjectives as usize)
+            .choose_multiple(rng, self.number_of_adjectives as usize)
             .enumerate()
             .for_each(|(i, adjective)| {
                 match self.species {
@@ -136,7 +149,7 @@ impl Zoo {
                 }
             });
 
-        let animal = ANIMALS.choose(&mut rng).unwrap();
+        let animal = ANIMALS.choose(rng).unwrap();
         match self.species {
             Species::ScreamingSnake | Species::ScreamingKebab => {
                 result.push_str(&animal.to_uppercase())
